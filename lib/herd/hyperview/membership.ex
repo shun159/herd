@@ -639,7 +639,7 @@ defmodule Herd.Hyparview.Membership do
   @spec disconnect(Node.t(), t()) :: t()
   defp disconnect(node, state) do
     :ok = send_disconnect(node)
-    Process.send_after(self(), {:sched_disconn, node}, 25_000)
+    Process.send_after(self(), {:sched_disconn, node}, :timer.seconds(3))
     passive = MapSet.put(state.passive_view, node)
     active = MapSet.delete(state.active_view, node)
     %{state | passive_view: passive, active_view: active}

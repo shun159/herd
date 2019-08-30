@@ -21,13 +21,22 @@ defmodule Herd.Supervisor do
     modules: [Herd.Hyparview.Membership]
   }
 
+  @plumtree_sup %{
+    id: Herd.Plumtree,
+    start: {Herd.Plumtree, :start_link, []},
+    restart: :permanent,
+    type: :supervisor,
+    modules: [Herd.Plumtree]
+  }
+
   @children [
     @node_monitor,
-    @membership
+    @membership,
+    @plumtree_sup
   ]
 
   @sup_flags [
-    strategy: :one_for_one,
+    strategy: :one_for_all,
     max_restarts: 5,
     max_seconds: 10
   ]
